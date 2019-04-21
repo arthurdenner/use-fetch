@@ -1,0 +1,63 @@
+{
+  "name": "use-fetch",
+  "version": "1.0.0",
+  "description": "React hook to fetch on steroids.",
+  "main": "./dist/use-fetch.cjs.js",
+  "module": "./dist/use-fetch.esm.js",
+  "types": "./types/index.d.ts",
+  "files": [
+    "dist",
+    "types"
+  ],
+  "keywords": [
+    "react",
+    "hooks",
+    "fetch"
+  ],
+  "author": "Arthur Denner <arthurdenner7@gmail.com>",
+  "scripts": {
+    "add-contributor": "all-contributors add",
+    "prebuild": "rimraf dist types",
+    "build": "rollup -c && tsc",
+    "preversion": "npm test",
+    "prepare": "npm run build",
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arthurdenner/use-fetch.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/arthurdenner/use-fetch/issues"
+  },
+  "homepage": "https://github.com/arthurdenner/use-fetch#readme",
+  "peerDependencies": {
+    "react": "^16.8.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/react": "^16.8.8",
+    "@typescript-eslint/eslint-plugin": "^1.5.0",
+    "@typescript-eslint/parser": "^1.5.0",
+    "all-contributors-cli": "^6.2.0",
+    "conventional-changelog-cli": "^2.0.12",
+    "eslint": "^5.15.3",
+    "eslint-plugin-react-hooks": "^1.6.0",
+    "husky": "^1.3.1",
+    "lint-staged": "^8.1.5",
+    "prettier": "^1.16.4",
+    "react": "^16.8.5",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.6.0",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-node-resolve": "^4.2.3",
+    "typescript": "^3.3.3333"
+  },
+  "dependencies": {
+    "@sindresorhus/string-hash": "^1.2.0"
+  }
+}
