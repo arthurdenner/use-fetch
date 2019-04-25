@@ -4,7 +4,7 @@ import stringHash from '@sindresorhus/string-hash';
 type useFetchParams<T> = {
   cacheKey?: string;
   expiryTime?: number;
-  initialState: T;
+  initialData: T;
   isJsonP?: boolean;
   options?: RequestInit;
   url: string;
@@ -71,7 +71,7 @@ const reducer = <T>(
 function useFetch<T>({
   cacheKey,
   expiryTime,
-  initialState,
+  initialData,
   isJsonP,
   options,
   url,
@@ -79,12 +79,12 @@ function useFetch<T>({
   const initialReducerState = useMemo<useFetchState<T>>(
     () => ({
       controller: new AbortController(),
-      data: initialState,
+      data: initialData,
       error: undefined,
       loading: true,
       canceled: false,
     }),
-    [initialState]
+    [initialData]
   );
   const [state, dispatch] = useReducer<
     React.Reducer<useFetchState<T>, Action<T>>
