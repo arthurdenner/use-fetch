@@ -2,10 +2,22 @@
 
 [![npm](https://img.shields.io/npm/v/use-fetch.svg)](https://www.npmjs.org/package/use-fetch)
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg)](#contributors)
+[![gzip size](https://img.badgesize.io/https://unpkg.com/use-fetch/dist/use-fetch.umd.js?compression=gzip)](https://unpkg.com/use-fetch/dist/use-fetch.umd.js)
+[![install size](https://packagephobia.now.sh/badge?p=use-fetch)](https://packagephobia.now.sh/result?p=use-fetch)
 
 React hook to fetch data with useful features.
 
-### Usage
+## Install
+
+```
+yarn add use-fetch
+```
+
+```
+npm i use-fetch
+```
+
+## Usage
 
 ```javascript
 import React from 'react';
@@ -78,3 +90,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+## License
+
+MIT © [Arthur Denner](https://github.com/arthurdenner/)
