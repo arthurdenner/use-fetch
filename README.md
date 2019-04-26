@@ -1,27 +1,27 @@
-# use-fetch
+# @arthurdenner/use-fetch
 
-[![npm](https://img.shields.io/npm/v/use-fetch.svg)](https://www.npmjs.org/package/use-fetch)
+[![npm](https://img.shields.io/npm/v/@arthurdenner/use-fetch.svg)](https://www.npmjs.org/package/@arthurdenner/use-fetch)
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg)](#contributors)
-[![gzip size](https://img.badgesize.io/https://unpkg.com/use-fetch/dist/use-fetch.umd.js?compression=gzip)](https://unpkg.com/use-fetch/dist/use-fetch.umd.js)
-[![install size](https://packagephobia.now.sh/badge?p=use-fetch)](https://packagephobia.now.sh/result?p=use-fetch)
+[![gzip size](https://img.badgesize.io/https://unpkg.com/@arthurdenner/use-fetch/dist/use-fetch.umd.js?compression=gzip)](https://unpkg.com/@arthurdenner/use-fetch/dist/use-fetch.umd.js)
+[![install size](https://packagephobia.now.sh/badge?p=@arthurdenner/use-fetch)](https://packagephobia.now.sh/result?p=@arthurdenner/use-fetch)
 
 React hook to fetch data with useful features.
 
 ## Install
 
 ```
-yarn add use-fetch
+yarn add @arthurdenner/use-fetch
 ```
 
 ```
-npm i use-fetch
+npm i @arthurdenner/use-fetch
 ```
 
 ## Usage
 
 ```javascript
 import React from 'react';
-import useFetch from 'use-fetch';
+import useFetch from '@arthurdenner/use-fetch';
 
 function App() {
   const { data: users, error, loading } = useFetch({

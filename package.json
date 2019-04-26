@@ -1,5 +1,5 @@
 {
-  "name": "use-fetch",
+  "name": "@arthurdenner/use-fetch",
   "version": "1.0.0",
   "description": "React hook to fetch data with useful features.",
   "main": "./dist/use-fetch.cjs.js",
