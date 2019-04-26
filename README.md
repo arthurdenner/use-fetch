@@ -42,7 +42,7 @@ function App() {
     <div>
       <ul>
         {users.map(user => (
-          <li>{name}</li>
+          <li>{user.name}</li>
         ))}
       </ul>
     </div>
