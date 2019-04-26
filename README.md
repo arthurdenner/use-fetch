@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/@arthurdenner/use-fetch.svg)](https://www.npmjs.org/package/@arthurdenner/use-fetch)
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg)](#contributors)
-[![gzip size](https://img.badgesize.io/https://unpkg.com/@arthurdenner/use-fetch/dist/use-fetch.umd.js?compression=gzip)](https://unpkg.com/@arthurdenner/use-fetch/dist/use-fetch.umd.js)
+[![gzip size](https://img.badgesize.io/https://unpkg.com/@arthurdenner/use-fetch/dist/use-fetch.cjs.js?compression=gzip)](https://unpkg.com/@arthurdenner/use-fetch/dist/use-fetch.cjs.js)
 [![install size](https://packagephobia.now.sh/badge?p=@arthurdenner/use-fetch)](https://packagephobia.now.sh/result?p=@arthurdenner/use-fetch)
 
 React hook to fetch data with useful features.
@@ -35,7 +35,7 @@ function App() {
   }
 
   if (loading) {
-    return <div>It's loading...</div>;
+    return <div>Loading...</div>;
   }
 
   return (
