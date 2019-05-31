@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useReducer } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef } from 'react';
 import stringHash from '@sindresorhus/string-hash';
 
 type useFetchParams<T> = {
@@ -11,7 +11,6 @@ type useFetchParams<T> = {
 };
 
 type useFetchState<T> = {
-  controller: AbortController;
   data: T;
   error?: Error;
   loading: boolean;
@@ -31,9 +30,9 @@ function useFetch<T>({
   options,
   url,
 }: useFetchParams<T>) {
+  const fetchController = useRef<AbortController>(new AbortController());
   const initialReducerState = useMemo<useFetchState<T>>(
     () => ({
-      controller: new AbortController(),
       data: initialData,
       error: undefined,
       loading: true,
@@ -50,6 +49,8 @@ function useFetch<T>({
       const controller = new AbortController();
       const signal = controller.signal;
       let localStorageKey = '';
+
+      fetchController.current = controller;
 
       try {
         if (expiryTime) {
@@ -76,7 +77,6 @@ function useFetch<T>({
         }
 
         setState({
-          controller,
           error: undefined,
           loading: true,
           canceled: false,
@@ -128,18 +128,16 @@ function useFetch<T>({
 
   useEffect(() => {
     memoizedFetch();
+
+    return () => fetchController.current.abort();
   }, [memoizedFetch]);
 
   return {
     ...state,
-    abort: () => {
-      state.controller.abort();
-    },
+    abort: () => fetchController.current.abort(),
     start: () => {
-      state.controller.abort();
-
-      // Wait for the next tick to fire the request again
-      setTimeout(memoizedFetch, 0);
+      fetchController.current.abort();
+      memoizedFetch();
     },
   };
 }
