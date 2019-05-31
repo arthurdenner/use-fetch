@@ -30,7 +30,8 @@ function useFetch<T>({
   options,
   url,
 }: useFetchParams<T>) {
-  const fetchController = useRef(new AbortController());
+  const controllerRef = useRef(new AbortController());
+  const mountedRef = useRef(false);
   const [state, setState] = useReducer<
     React.Reducer<useFetchState<T>, Partial<useFetchState<T>>>
   >(reducer, {
@@ -39,6 +40,11 @@ function useFetch<T>({
     loading: true,
     canceled: false,
   });
+  const safeSetState = (newState: Partial<useFetchState<T>>) => {
+    if (mountedRef.current) {
+      setState(newState);
+    }
+  };
 
   const memoizedFetch = useCallback(() => {
     async function fetchCallback() {
@@ -46,7 +52,7 @@ function useFetch<T>({
       const signal = controller.signal;
       let localStorageKey = '';
 
-      fetchController.current = controller;
+      controllerRef.current = controller;
 
       try {
         if (expiryTime) {
@@ -58,7 +64,7 @@ function useFetch<T>({
             const age = (Date.now() - Number(whenCached)) / 1000;
 
             if (age < expiryTime) {
-              setState({
+              safeSetState({
                 data: JSON.parse(cached),
                 loading: false,
                 canceled: false,
@@ -72,7 +78,7 @@ function useFetch<T>({
           }
         }
 
-        setState({
+        safeSetState({
           error: undefined,
           loading: true,
           canceled: false,
@@ -97,20 +103,20 @@ function useFetch<T>({
           localStorage.setItem(`${localStorageKey}:ts`, Date.now().toString());
         }
 
-        setState({
+        safeSetState({
           data: response,
           loading: false,
           canceled: false,
         });
       } catch (err) {
         if (err.name !== 'AbortError') {
-          setState({
+          safeSetState({
             error: err,
             loading: false,
             canceled: false,
           });
         } else {
-          setState({
+          safeSetState({
             error: undefined,
             loading: false,
             canceled: true,
@@ -120,20 +126,27 @@ function useFetch<T>({
     }
 
     return fetchCallback();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cacheKey, expiryTime, isJsonP, url]);
+  }, [cacheKey, expiryTime, isJsonP, options, url]);
+
+  useEffect(() => {
+    mountedRef.current = true;
+
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     memoizedFetch();
 
-    return () => fetchController.current.abort();
+    return () => controllerRef.current.abort();
   }, [memoizedFetch]);
 
   return {
     ...state,
-    abort: () => fetchController.current.abort(),
+    abort: () => controllerRef.current.abort(),
     start: () => {
-      fetchController.current.abort();
+      controllerRef.current.abort();
       memoizedFetch();
     },
   };
