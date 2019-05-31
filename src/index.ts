@@ -120,7 +120,8 @@ function useFetch<T>({
     }
 
     return fetchCallback();
-  }, [cacheKey, expiryTime, isJsonP, options, url]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cacheKey, expiryTime, isJsonP, url]);
 
   useEffect(() => {
     memoizedFetch();
