@@ -18,55 +18,10 @@ type useFetchState<T> = {
   canceled: boolean;
 };
 
-type Action<T> =
-  | { type: 'FETCH_ABORTED' }
-  | { type: 'FETCH_ERROR'; payload: Error }
-  | { type: 'FETCH_INIT'; payload: AbortController }
-  | { type: 'FETCH_SUCCESS'; payload: T };
-
 const reducer = <T>(
-  state: useFetchState<T>,
-  action: Action<T>
-): useFetchState<T> => {
-  switch (action.type) {
-    case 'FETCH_ABORTED': {
-      return {
-        ...state,
-        error: undefined,
-        loading: false,
-        canceled: true,
-      };
-    }
-    case 'FETCH_ERROR': {
-      return {
-        ...state,
-        error: action.payload,
-        loading: false,
-        canceled: false,
-      };
-    }
-    case 'FETCH_INIT': {
-      return {
-        ...state,
-        controller: action.payload,
-        error: undefined,
-        loading: true,
-        canceled: false,
-      };
-    }
-    case 'FETCH_SUCCESS': {
-      return {
-        ...state,
-        data: action.payload,
-        loading: false,
-        canceled: false,
-      };
-    }
-    default: {
-      return state;
-    }
-  }
-};
+  currentState: useFetchState<T>,
+  newState: Partial<useFetchState<T>>
+): useFetchState<T> => ({ ...currentState, ...newState });
 
 function useFetch<T>({
   cacheKey,
@@ -86,8 +41,8 @@ function useFetch<T>({
     }),
     [initialData]
   );
-  const [state, dispatch] = useReducer<
-    React.Reducer<useFetchState<T>, Action<T>>
+  const [state, setState] = useReducer<
+    React.Reducer<useFetchState<T>, Partial<useFetchState<T>>>
   >(reducer, initialReducerState);
 
   const memoizedFetch = useCallback(() => {
@@ -106,9 +61,10 @@ function useFetch<T>({
             const age = (Date.now() - Number(whenCached)) / 1000;
 
             if (age < expiryTime) {
-              dispatch({
-                type: 'FETCH_SUCCESS',
-                payload: JSON.parse(cached),
+              setState({
+                data: JSON.parse(cached),
+                loading: false,
+                canceled: false,
               });
 
               return;
@@ -119,7 +75,12 @@ function useFetch<T>({
           }
         }
 
-        dispatch({ type: 'FETCH_INIT', payload: controller });
+        setState({
+          controller,
+          error: undefined,
+          loading: true,
+          canceled: false,
+        });
 
         const fetchResponse = await fetch(url, { ...options, signal });
 
@@ -140,15 +101,24 @@ function useFetch<T>({
           localStorage.setItem(`${localStorageKey}:ts`, Date.now().toString());
         }
 
-        dispatch({
-          type: 'FETCH_SUCCESS',
-          payload: response,
+        setState({
+          data: response,
+          loading: false,
+          canceled: false,
         });
       } catch (err) {
         if (err.name !== 'AbortError') {
-          dispatch({ type: 'FETCH_ERROR', payload: err });
+          setState({
+            error: err,
+            loading: false,
+            canceled: false,
+          });
         } else {
-          dispatch({ type: 'FETCH_ABORTED' });
+          setState({
+            error: undefined,
+            loading: false,
+            canceled: true,
+          });
         }
       }
     }
