@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useReducer, useRef } from 'react';
+import { useCallback, useEffect, useReducer, useRef } from 'react';
 import stringHash from '@sindresorhus/string-hash';
 
 type useFetchParams<T> = {
@@ -30,19 +30,15 @@ function useFetch<T>({
   options,
   url,
 }: useFetchParams<T>) {
-  const fetchController = useRef<AbortController>(new AbortController());
-  const initialReducerState = useMemo<useFetchState<T>>(
-    () => ({
-      data: initialData,
-      error: undefined,
-      loading: true,
-      canceled: false,
-    }),
-    [initialData]
-  );
+  const fetchController = useRef(new AbortController());
   const [state, setState] = useReducer<
     React.Reducer<useFetchState<T>, Partial<useFetchState<T>>>
-  >(reducer, initialReducerState);
+  >(reducer, {
+    data: initialData,
+    error: undefined,
+    loading: true,
+    canceled: false,
+  });
 
   const memoizedFetch = useCallback(() => {
     async function fetchCallback() {
