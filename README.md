@@ -25,7 +25,7 @@ import useFetch from '@arthurdenner/use-fetch';
 
 function App() {
   const { data: users, error, loading } = useFetch({
-    initialState: [],
+    initialData: [],
     url: 'https://jsonplaceholder.typicode.com/users',
   });
 
