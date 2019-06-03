@@ -56,7 +56,7 @@ function App() {
 - JSONP support
 - localStorage cache support
   - You don't pass a `cacheKey`, the hash of the URL will be used
-- Abort request support
+- Abort request support (manually and when the component unmounts)
 
 ## Config
 
@@ -71,13 +71,14 @@ function App() {
 
 ## Return
 
-| name       | type            | description                                     |
-| ---------- | --------------- | ----------------------------------------------- |
-| controller | AbortController | AbortController instance of the current request |
-| data       | T               | data returned from the request                  |
-| error      | Error           | error occurred on the request                   |
-| loading    | boolean         | indicates if the request is being made          |
-| canceled   | boolean         | indicates if the request was canceled           |
+| name     | type               | description                             |
+| -------- | ------------------ | --------------------------------------- |
+| abort    | () => void         | callback function to cancel the request |
+| start    | () => void         | callback function to fire the request   |
+| data     | T                  | data returned from the request          |
+| error    | Error \| undefined | error occurred on the request           |
+| loading  | boolean            | indicates if the request is being made  |
+| canceled | boolean            | indicates if the request was canceled   |
 
 ## Contributors
 
