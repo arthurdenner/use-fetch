@@ -55,7 +55,7 @@
     "rollup-plugin-babel": "4.3.3",
     "rollup-plugin-commonjs": "10.1.0",
     "rollup-plugin-node-resolve": "5.2.0",
-    "typescript": "3.6.4"
+    "typescript": "3.7.2"
   },
   "dependencies": {
     "@sindresorhus/string-hash": "^1.2.0"
