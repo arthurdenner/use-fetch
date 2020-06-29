@@ -7,6 +7,8 @@
 
 React hook to fetch data with useful features.
 
+⚠ This library was a good experiment, but currently there are better solutions to this problem, such as [react-query](https://github.com/tannerlinsley/react-query), so I'd recommend avoiding this library as it won't be maintained anymore. ⚠
+
 ## Install
 
 ```
